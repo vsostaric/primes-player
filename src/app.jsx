@@ -147,30 +147,33 @@ var PrimesQuizGame = React.createClass({
 
 	checkAnswer: function(ans) {
 		if(ans === 1) {
-			this.state.numOfCorrect += 1;
+			this.setState({
+				numOfCorrect: this.state.numOfCorrect += 1
+			});
+			
 		} else {
-			this.state.numOfWrong += 1;
+			this.setState({
+				numOfWrong: this.state.numOfWrong += 1
+			});
 		}
-
-		console.log(this.state);
 
 	},
 
-	Question: function() {
+	Question: function(props) {
 
 		//generates questions and correct option must call checkAnswer with 1, other with -1
 		return(
 			<div>
 				<span>Is 55 prime?</span>
-				<span><button class="answer-option" onClick={this.checkAnswer(-1)}>Yes?</button></span>
-				<span><button class="answer-option" onClick={this.checkAnswer(1)}>No?</button></span>
+				<span><button class="answer-option correct" onClick={function() { props.checkAnswer(1) }}>Yes?</button></span>
+				<span><button class="answer-option" onClick={function() {props.checkAnswer(-1)}}>No?</button></span>
 			</div>
 		)
 
 	},
 
-	startGame: function() {
-		ReactDOM.render(<this.Question />, document.getElementById('question'));
+	askQuestion: function() {
+		ReactDOM.render(<this.Question checkAnswer={function(ans) {this.checkAnswer(ans)}.bind(this)}/>, document.getElementById('question'));
 		//event handler which checks buttons with class answer-options
 	},
 
@@ -186,7 +189,11 @@ var PrimesQuizGame = React.createClass({
 
 			<div>
 				<span id="question"></span>
-				<button onClick={this.startGame}>Start!</button>
+				<button onClick={this.askQuestion}>Start!</button>
+				<span>
+					<div>Correct : {this.state.numOfCorrect}</div>
+					<div>Wrong : {this.state.numOfWrong}</div>
+				</span>
 			</div>
 
 		)
