@@ -159,6 +159,8 @@ var PrimesQuizGame = React.createClass({
 			});
 		}
 
+		this.askQuestion();
+
 	},
 
 	generateRandomNumber: function(lower, upper, isPrime) {
