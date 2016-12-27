@@ -145,8 +145,10 @@ var FirstNPrimesLister = React.createClass({
 
 var PrimesQuizGame = React.createClass({
 
+	checkIsNumberPrime: isPrime,
+
 	checkAnswer: function(ans) {
-		if(ans === 1) {
+		if(ans) {
 			this.setState({
 				numOfCorrect: this.state.numOfCorrect += 1
 			});
@@ -159,14 +161,88 @@ var PrimesQuizGame = React.createClass({
 
 	},
 
+	generateRandomNumber: function(lower, upper, isPrime) {
+
+		var generatedNumber;
+		var numberNotGenerated = true;
+
+		do {
+
+			generatedNumber = Math.floor(Math.floor((Math.random() * upper) + lower));
+			if(this.checkIsNumberPrime(generatedNumber) === isPrime) {
+				numberNotGenerated = false;
+			}
+		} while(numberNotGenerated);
+
+		return generatedNumber;
+
+	},
+
 	Question: function(props) {
 
 		//generates questions and correct option must call checkAnswer with 1, other with -1
+
+		var shuffle = function (array) {
+		  var currentIndex = array.length, temporaryValue, randomIndex;
+
+		  // While there remain elements to shuffle...
+		  while (0 !== currentIndex) {
+
+		    // Pick a remaining element...
+		    randomIndex = Math.floor(Math.random() * currentIndex);
+		    currentIndex -= 1;
+
+		    // And swap it with the current element.
+		    temporaryValue = array[currentIndex];
+		    array[currentIndex] = array[randomIndex];
+		    array[randomIndex] = temporaryValue;
+		  }
+
+		  return array;
+		};
+
+		var questionTypes = ["identifyPrime", "identifyNonPrime"];
+		var questionTypeIndex = Math.floor((Math.random() * questionTypes.length));
+
+		var question;
+		var answerOptions = [];
+		var indexOfCorrect;
+
+		if(questionTypeIndex === 0) {
+			question = 'Click on Prime number';
+			var correctValue = this.generateRandomNumber(0,50,true);
+			var options = 
+				[correctValue, this.generateRandomNumber(0,50,false), this.generateRandomNumber(0,50,false)];
+			
+			answerOptions = shuffle(options);
+			indexOfCorrect = answerOptions.indexOf(correctValue);
+
+		} else if(questionTypeIndex === 1) {
+			question = 'Click on Non Prime number';
+
+			var correctValue = this.generateRandomNumber(0,50,false);
+			var options = 
+				[correctValue, this.generateRandomNumber(0,50,true), this.generateRandomNumber(0,50,true)];
+			answerOptions = shuffle(options);
+			indexOfCorrect = answerOptions.indexOf(correctValue);
+		}
+		
 		return(
 			<div>
-				<span>Is 55 prime?</span>
-				<span><button class="answer-option correct" onClick={function() { props.checkAnswer(1) }}>Yes?</button></span>
-				<span><button class="answer-option" onClick={function() {props.checkAnswer(-1)}}>No?</button></span>
+				<span>{question}</span>
+					<span>
+					{
+						answerOptions.map(function(opt, index) {
+							return(
+
+								<button class="answer-option" onClick={function() { props.checkAnswer((index === indexOfCorrect)) }}>{opt}</button>
+
+							)
+						})
+					}
+
+					</span>
+
 			</div>
 		)
 
