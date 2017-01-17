@@ -125,7 +125,7 @@ var PrimesQuizGame = React.createClass({
 	render: function() {
 		return(
 
-			<div>
+			<div className="PrimesQuizGame">
 				<span id="question"></span>
 				<button onClick={this.askQuestion}>Start!</button>
 				<span>

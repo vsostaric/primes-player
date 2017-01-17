@@ -20,7 +20,7 @@ var PrimeNumberTester = React.createClass({
 		} else if(isNaN(inputNumber)) {
 
 			this.setState( {
-				primeTestResult: ' Not even a fucking number!'
+				primeTestResult: ' Not even a number!'
 			});
 			
 		} else {
@@ -35,8 +35,6 @@ var PrimeNumberTester = React.createClass({
 				});
 			}
 		}
-
-		this.forceUpdate(this.state);
 		
 	},
 
@@ -57,9 +55,9 @@ var PrimeNumberTester = React.createClass({
 
 	render: function() {
 		return(
-			<div>
+			<div className="PrimeNumberTester">
 				<div>Enter number:</div>
-				<input type="text" name="primeTestInput" onChange= {this.checkInput} />
+				<input type="text" className="input-lg" name="primeTestInput" onChange= {this.checkInput} />
 				<this.PrimeTestOutput primeTestResult= {this.state.primeTestResult} />
 			</div>
 		)

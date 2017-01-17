@@ -50,7 +50,7 @@ var FirstNPrimesLister = React.createClass({
 	render: function() {
 		return(
 
-			<div>
+			<div className="FirstNPrimesLister">
 				<input type="text" name="firstNPrimes" value={this.firstNPrimes} onChange={this.setFirstNPrimes}/>
 				<button onClick={this.showNPrimes}>Show</button>
 				<div id="firstNPrimes"></div>
