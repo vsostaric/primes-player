@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import './App.css';
-import './componentCss/PrimeNumberTester.css';
 
-import PrimeNumberTester from './PrimeNumberTester.js';
-import FirstNPrimesLister from './FirstNPrimesLister.js';
-import PrimesQuizGame from './PrimesQuizGame.js'
+import PrimeNumberTester from './components/PrimeNumberTester.js';
+import FirstNPrimesLister from './components/FirstNPrimesLister.js';
+import PrimesQuizGame from './components/PrimesQuizGame.js'
 
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -25,13 +24,13 @@ function TabsInstance() {
 	return(
 		<div>
 			<Tabs defaultActiveKey={1}>
-				<Tab eventKey={1} title="first">
+				<Tab eventKey={1} title="Prime number tester">
 					<PrimeNumberTester />
 				</Tab>
-				<Tab eventKey={2} title="second">
+				<Tab eventKey={2} title="Primes Lister">
 					<FirstNPrimesLister />
 				</Tab>
-				<Tab eventKey={3} title="third">
+				<Tab eventKey={3} title="Primes Quiz Game">
 					<PrimesQuizGame />
 				</Tab>
 			</Tabs>
@@ -41,29 +40,19 @@ function TabsInstance() {
 	)
 }
 
-var Container = React.createClass({
-	getInitialState: function() {
-		return {
-			key: "1"
-		}
-	},
-	handleSelect: function () {
-  		alert('selected ');
-	},
-	render: function() {
+function Container() {
 
-		return(
+	return(
 
 		<div className="container">
 
 			<TabsInstance />
-			
+				
 		</div>
 
 	)
 
-	}
-})
+}
 
 ReactDOM.render(<Container />, document.getElementById('application'));
 
