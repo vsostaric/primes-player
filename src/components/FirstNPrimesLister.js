@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 
 import isPrime from './CommonFunctions.js';
 
+var Button = require('react-bootstrap').Button;
+
 var FirstNPrimesLister = React.createClass({
 
 	checkIsNumberPrime: isPrime,
@@ -51,8 +53,8 @@ var FirstNPrimesLister = React.createClass({
 		return(
 
 			<div className="FirstNPrimesLister">
-				<input type="text" name="firstNPrimes" value={this.firstNPrimes} onChange={this.setFirstNPrimes}/>
-				<button onClick={this.showNPrimes}>Show</button>
+				<input className="input-lg" type="text" name="firstNPrimes" value={this.firstNPrimes} onChange={this.setFirstNPrimes}/>
+				<Button onClick={this.showNPrimes}>Show</Button>
 				<div id="firstNPrimes"></div>
 			</div>
 

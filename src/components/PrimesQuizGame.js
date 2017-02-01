@@ -3,6 +3,12 @@ import ReactDOM from 'react-dom';
 
 import isPrime from './CommonFunctions.js';
 
+var Row = require('react-bootstrap').Row;
+var Col = require('react-bootstrap').Col;
+
+var Button = require('react-bootstrap').Button;
+
+
 var PrimesQuizGame = React.createClass({
 
 	checkIsNumberPrime: isPrime,
@@ -92,19 +98,24 @@ var PrimesQuizGame = React.createClass({
 		return(
 			<div>
 				<span>{question}</span>
-					<span>
-					{
-						answerOptions.map(function(opt, index) {
-							return(
+				<Row>
+						
+						{
+							answerOptions.map(function(opt, index) {
+								return(
+									<Col sm={4}>
+										<Button 
+											class="answer-option" 
+											onClick={function() { props.checkAnswer((index === indexOfCorrect)) }}>{opt}
+										</Button>
+									</Col>
+								)
+							})
+						}
 
-								<button class="answer-option" onClick={function() { props.checkAnswer((index === indexOfCorrect)) }}>{opt}</button>
+						
 
-							)
-						})
-					}
-
-					</span>
-
+				</Row>
 			</div>
 		)
 
@@ -113,6 +124,14 @@ var PrimesQuizGame = React.createClass({
 	askQuestion: function() {
 		ReactDOM.render(<this.Question checkAnswer={function(ans) {this.checkAnswer(ans)}.bind(this)}/>, document.getElementById('question'));
 		//event handler which checks buttons with class answer-options
+	},
+
+	startGame: function() {
+		this.setState({
+				numOfCorrect: 0,
+				numOfWrong: 0
+			});
+		this.askQuestion();
 	},
 
 	getInitialState: function() {
@@ -126,12 +145,14 @@ var PrimesQuizGame = React.createClass({
 		return(
 
 			<div className="PrimesQuizGame">
-				<span id="question"></span>
-				<button onClick={this.askQuestion}>Start!</button>
-				<span>
-					<div>Correct : {this.state.numOfCorrect}</div>
-					<div>Wrong : {this.state.numOfWrong}</div>
-				</span>
+				<div id="question"></div>
+				<div>
+					<button onClick={this.startGame}>Start!</button>
+					<span>
+						<div>Correct : {this.state.numOfCorrect}</div>
+						<div>Wrong : {this.state.numOfWrong}</div>
+					</span>
+				</div>
 			</div>
 
 		)
