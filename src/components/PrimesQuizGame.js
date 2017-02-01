@@ -18,7 +18,7 @@ var PrimesQuizGame = React.createClass({
 			this.setState({
 				numOfCorrect: this.state.numOfCorrect += 1
 			});
-			
+
 		} else {
 			this.setState({
 				numOfWrong: this.state.numOfWrong += 1
@@ -46,6 +46,12 @@ var PrimesQuizGame = React.createClass({
 
 	},
 
+	generateRandomBoolean: function() {
+
+		return Math.floor(Math.random()*2) > 0;
+
+	},
+
 	Question: function(props) {
 
 		//generates questions and correct option must call checkAnswer with 1, other with -1
@@ -69,7 +75,7 @@ var PrimesQuizGame = React.createClass({
 		  return array;
 		};
 
-		var questionTypes = ["identifyPrime", "identifyNonPrime"];
+		var questionTypes = ["identifyPrime", "identifyNonPrime", "isNumberPrime"];
 		var questionTypeIndex = Math.floor((Math.random() * questionTypes.length));
 
 		var question;
@@ -79,9 +85,9 @@ var PrimesQuizGame = React.createClass({
 		if(questionTypeIndex === 0) {
 			question = 'Click on Prime number';
 			var correctValue = this.generateRandomNumber(0,50,true);
-			var options = 
+			var options =
 				[correctValue, this.generateRandomNumber(0,50,false), this.generateRandomNumber(0,50,false)];
-			
+
 			answerOptions = shuffle(options);
 			indexOfCorrect = answerOptions.indexOf(correctValue);
 
@@ -89,33 +95,51 @@ var PrimesQuizGame = React.createClass({
 			question = 'Click on Non Prime number';
 
 			var correctValue = this.generateRandomNumber(0,50,false);
-			var options = 
+			var options =
 				[correctValue, this.generateRandomNumber(0,50,true), this.generateRandomNumber(0,50,true)];
 			answerOptions = shuffle(options);
 			indexOfCorrect = answerOptions.indexOf(correctValue);
+		} else if(questionTypeIndex === 2) {
+
+			var isPrime = this.generateRandomBoolean();
+			var correctValue;
+
+			var questionNumeber = this.generateRandomNumber(0,50,isPrime);
+
+			if(isPrime) {
+				correctValue = 'Yes';
+				indexOfCorrect = 0;
+			} else {
+				correctValue = 'No';
+				indexOfCorrect = 1;
+			}
+
+			question = 'Is ' + questionNumeber + ' prime?';
+			var answerOptions = ['Yes', 'No' ];
 		}
-		
+
 		return(
 			<div>
 				<span>{question}</span>
-				<Row>
-						
+
 						{
 							answerOptions.map(function(opt, index) {
 								return(
-									<Col sm={4}>
-										<Button 
-											class="answer-option" 
-											onClick={function() { props.checkAnswer((index === indexOfCorrect)) }}>{opt}
-										</Button>
-									</Col>
+									<Row>
+										<Col sm={4}>
+											<Button
+												bsSize="large"
+												class="answer-option"
+												onClick={function() { props.checkAnswer((index === indexOfCorrect)) }}
+												block>
+													{opt}
+											</Button>
+										</Col>
+									</Row>
 								)
 							})
 						}
 
-						
-
-				</Row>
 			</div>
 		)
 
